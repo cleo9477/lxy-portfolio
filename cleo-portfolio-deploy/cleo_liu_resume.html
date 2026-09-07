@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘心怡 Cleo - 简历</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f4f4f4;
+            --text-main: #1a1a1a;
+            --text-secondary: #555555;
+            --accent-color: #222222;
+            --border-color: #d0d0d0;
+            --font-en: 'Inter', sans-serif;
+            --font-zh: 'Noto Sans SC', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-zh);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            padding: 40px 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .resume-container {
+            width: 210mm; /* A4 width */
+            min-height: 297mm; /* A4 height */
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px 50px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .header-bar {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-en);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-right: 220px; /* Leave space for image */
+            margin-top: 10px;
+        }
+
+        .header-bar span strong {
+            margin-right: 5px;
+            font-weight: 800;
+        }
+
+        .top-section {
+            display: grid;
+            grid-template-columns: 1.2fr 1.2fr 200px; /* 调整网格占比，为姓名区域提供充足宽度 */
+            gap: 25px;
+            align-items: start;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 25px;
+            position: relative;
+        }
+
+        .about-me {
+            grid-column: 1 / 2;
+            padding-right: 10px;
+        }
+
+        .section-title {
+            font-family: var(--font-en);
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .about-text {
+            font-size: 11.5px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .name-title-container {
+            grid-column: 2 / 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 10px;
+            margin-right: -20px;
+        }
+
+        .greeting {
+            font-family: var(--font-en);
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .name-zh {
+            font-family: var(--font-zh);
+            font-size: 58px; /* 调整字号并强行不换行，确保中文姓名在一行内完整呈现 */
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            white-space: nowrap;
+        }
+
+        .name-first, .name-last {
+            font-family: var(--font-en);
+            font-size: 42px;
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -1px;
+            display: inline-block;
+        }
+
+        .name-last {
+            margin-left: 10px;
+        }
+
+        .job-title {
+            font-family: var(--font-en);
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            white-space: normal;
+            line-height: 1.4;
+            margin-top: 10px;
+        }
+
+        .profile-photo-container {
+            grid-column: 3 / 4;
+            position: absolute;
+            top: -122px;
+            right: -50px;
+            width: 268px;
+            height: 348px;
+            background-color: #e0e0e0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .middle-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 25px;
+        }
+
+        .education-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px 20px;
+            margin-top: 15px;
+        }
+
+        .edu-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            width: 45%;
+        }
+        
+        .edu-item.full-width {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .edu-degree {
+            font-family: var(--font-en);
+            font-size: 15px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 5px;
+        }
+
+        .edu-school {
+            font-family: var(--font-en);
+            font-size: 12px;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .edu-year {
+            font-family: var(--font-en);
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .edu-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .skills-section {
+            padding-left: 20px;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .skills-list {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background-color: #f0f0f0;
+            color: var(--text-main);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid #e0e0e0;
+        }
+
+        .experience-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .exp-item {
+            margin-bottom: 10px;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .exp-title {
+            font-family: var(--font-en);
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .exp-company-date {
+            font-size: 14px;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .exp-company-date span {
+            font-weight: 400;
+            font-family: var(--font-en);
+        }
+
+        .exp-desc {
+            font-size: 11.5px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            text-align: justify;
+        }
+        
+        .exp-desc p {
+            margin-bottom: 6px;
+        }
+
+        @media print {
+            @page {
+                size: 210mm 362mm;
+                margin: 0;
+            }
+            body {
+                background-color: white;
+                padding: 0;
+                display: block;
+            }
+            .resume-container {
+                box-shadow: none;
+                width: 210mm;
+                min-height: 297mm;
+                padding: 40px 50px;
+                gap: 30px;
+            }
+            .header-bar {
+                margin-top: 10px;
+            }
+            .profile-photo-container {
+                top: -122px;
+                right: -50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        
+        <div class="header-bar">
+            <span><strong>P:</strong> 159 1024 0895</span>
+            <span><strong>E:</strong> 947756870@qq.com</span>
+            <span><strong>A:</strong> 深圳</span>
+        </div>
+
+        <div class="top-section">
+            <div class="about-me">
+                <h2 class="section-title">PROFILE</h2>
+                <div class="about-text">
+                    拥有海外产品营销与品牌公关经验，擅长从用户洞察和文化趋势出发完成品牌定位、上市传播与内容体系搭建。熟悉AI SaaS、创意软件及生活方式品牌，能够把品牌判断转化为具体的传播项目，并以声量、互动、使用和转化数据验证影响。<br><br>
+                </div>
+            </div>
+
+            <div class="name-title-container">
+                <div class="greeting">Hi, I'm</div>
+                <div class="name-zh">刘心怡</div>
+                <div>
+                    <span class="name-first">Cleo</span>
+                    <span class="name-last">Liu</span>
+                </div>
+                <div class="job-title">品牌营销 / 整合传播<br>内容策略 / 海外市场</div>
+            </div>
+
+            <div class="profile-photo-container">
+                <img src="Facetune_27-09-2025-22-54-35.jpg" alt="Cleo Liu">
+            </div>
+        </div>
+
+        <div class="middle-section">
+            <div class="education-section">
+                <h2 class="section-title">Education</h2>
+                <div class="education-grid">
+                    <div class="edu-item">
+                        <div class="edu-degree">Master in Media & Communication</div>
+                        <div class="edu-school">英国利兹大学</div>
+                        <div class="edu-year">2020.9 - 2021.9</div>
+                    </div>
+                    
+                    <div class="edu-item">
+                        <div class="edu-degree">Bachelor in English (Cross-cultural)</div>
+                        <div class="edu-school">北京第二外国语学院</div>
+                        <div class="edu-year">2016.9 - 2020.7</div>
+                    </div>
+
+                    <div class="edu-item full-width">
+                        <div class="edu-degree" style="font-size: 14px;">校学生会外联部部长</div>
+                        <div class="edu-year">2017.9 - 2018.9</div>
+                        <div class="edu-desc">负责大型活动的赞助谈判和日常运营开销，为4场校级晚会筹集80%资金，并组织了30+高校参加的大型联谊酒会。</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skills-section">
+                <h2 class="section-title">Ability</h2>
+                <div class="skills-list">
+                    <span class="skill-tag">品牌定位</span>
+                    <span class="skill-tag">整合传播</span>
+                    <span class="skill-tag">内容策略</span>
+                    <span class="skill-tag">海外市场营销</span>
+                    <span class="skill-tag">AI Automation</span>
+                    <span class="skill-tag">公关与KOL合作</span>
+                    <span class="skill-tag">文化敏感度</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="experience-section">
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div class="exp-title">海外产品营销</div>
+                    <div class="exp-company-date">北京庖丁科技有限公司 | <span>2025.2 - 2026.9</span></div>
+                </div>
+                <div class="exp-desc">
+                    <p>先后负责ChatDOC、Calliper、Glazer的产品定位与转化优化。通过用户访谈和竞品分析确立目标人群，并提出TapSource™与“技术性写作”概念，优化官网视觉、产品视频、UI 文案及交互路径；落地页转化率提升 74%，核心功能渗透率提升 34%，充值率提升 31%。</p>
+                    <p>进行海外开发者群体破圈，重新提炼传播主题，选择 GitHub、Hugging Face 及垂直 KOL 作为核心触点，制定内容 brief 和发布节奏。产品发布当周获得 1,700 GitHub Stars 和 1.9 万次 Hugging Face 下载，均进入对应平台当周榜单 Top 6。</p>
+                    <p>为增加品牌自然讨论并持续收集用户反馈，从 0 搭建 Reddit 内容渠道，围绕用户问题、产品场景和行业话题测试不同社群与内容方向。累计发布 81 篇帖文，获得 2,000+ 次互动和 1,677 次 upvote；70% 帖文进入所属社群 Hot 首页，重点帖文在目标关键词搜索结果中最高排名第一。</p>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div class="exp-title">海外产品营销</div>
+                    <div class="exp-company-date">深圳市童心制物科技有限公司 (xTool) | <span>2023.3 - 2024.8</span></div>
+                </div>
+                <div class="exp-desc">
+                    <p>负责 xTool Creative Space v2.0 上市传播。针对 Beta 阶段产品稳定性和开放范围有限的情况，包装为“抢先体验”营销机制，通过社群预热、功能剧透建立用户期待；统筹产品视频、官网、社媒、营销邮件及 YouTube 官方直播间的传播内容。直播间非粉丝观众占比达 55%，同时观看人数均创半年内最高，2000/小时下载量创历史最高值。</p>
+                    <p>针对核心功能渗透率低、用户理解不足的问题，建立教程策划、制作、分发和复盘机制，搭建线上学习中心，并持续负责教程文章、视频和 Newsletter 内容；半年内教程阅读量提升 200%，互动率提升 98%，Newsletter 打开率提升 61%，点击率提升 52%。</p>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-header">
+                    <div class="exp-title">品牌公关</div>
+                    <div class="exp-company-date">无疆跨境品牌科技公司 | <span>2022.1 - 2023.2</span></div>
+                </div>
+                <div class="exp-desc">
+                    <p>负责 BODY404 从 0 到 1 的品牌搭建。基于竞品研究和文化趋势分析，判断品牌需要从“商品聚合平台”转向“非主流品牌与文化内容的发现平台”，提出 “Play Offbeat” 品牌主张，并搭建品牌故事、Message House 和品牌传播 Roadmap。</p>
+                    <p>围绕 “Play Offbeat” 持续进入目标用户所在的艺术、音乐和青年文化场景：与海外多个艺术学院合作，持续支持校园时尚活动及演出，提供产品和周边装置；和Burning Man的3个Playa联动，强化品牌与Rave文化的关联。</p>
+                    <p>筛选海外KOL，制定合作 brief 并推进执行；为 10+ 入驻品牌撰写品牌故事，搭建内容矩阵，提升品牌叙事完整度和内容可见度。将融资节点转化为品牌故事和媒体议题，围绕品牌主张、创始背景和市场机会制定传播内容，促成 TechCrunch 融资首发；报道发布后网站日流量提升 328%，品牌提及率提升 235%，网站权重提升 26%。</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

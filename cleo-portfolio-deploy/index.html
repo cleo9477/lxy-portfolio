@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cleo Liu | Works & Interactions</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                        serif: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        ink: '#0c0c0c',
+                        paper: '#f2f2ef',
+                        muted: '#888888',
+                        accent: '#d9d9d6'
+                    },
+                    transitionTimingFunction: {
+                        'expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: theme('colors.paper');
+            color: theme('colors.ink');
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            cursor: auto;
+            overflow-x: hidden;
+        }
+        
+        ::selection { background-color: theme('colors.ink'); color: theme('colors.paper'); }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: theme('colors.ink');
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(12, 12, 12, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        .cursor-hover .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(12, 12, 12, 0.05);
+            border-color: transparent;
+        }
+
+        /* Keep the editorial type upright and use the system cursor. */
+        .italic,
+        .hover\\:italic:hover,
+        .filter-btn.active { font-style: normal !important; }
+        .cursor-dot,
+        .cursor-outline { display: none !important; }
+
+        /* Project Card Hover Effects */
+        .project-card {
+            overflow: hidden;
+            position: relative;
+        }
+        .project-img {
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+            filter: grayscale(80%);
+        }
+        .project-card:hover .project-img {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
+        .project-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        .project-title {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .project-card:hover .project-title {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Filter Button Active State */
+        .filter-btn.active {
+            border-bottom: 1px solid theme('colors.ink');
+        }
+
+        /* Modal Animation */
+        #project-modal {
+            clip-path: inset(100% 0 0 0);
+            transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #project-modal.open {
+            clip-path: inset(0 0 0 0);
+        }
+
+        .hero-mark {
+            width: clamp(140px, 18vw, 260px);
+            height: clamp(140px, 18vw, 260px);
+            border: 1px solid #0c0c0c;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            transform: rotate(-8deg);
+            overflow: hidden;
+        }
+        .hero-mark img { width: 100%; height: 100%; object-fit: cover; object-position: center 82%; transform: rotate(8deg) scale(1.02); }
+        .project-index { transition: transform .45s cubic-bezier(0.16,1,0.3,1); }
+        .project-card:hover .project-index { transform: translateX(7px); }
+        .case-label { letter-spacing: .18em; text-transform: uppercase; font-size: 10px; color: #888; }
+        .font-serif { font-family: 'Inter', 'Noto Sans SC', sans-serif !important; }
+        .project-card { border-top: 1px solid #cfcfca; border-bottom: 1px solid #cfcfca; border-radius: 0 !important; background: transparent !important; min-height: 180px; padding: 28px 28px 24px 0; transition: padding .35s ease, background-color .35s ease; }
+        .project-card:hover { padding-left: 18px; background: rgba(217,217,214,.35) !important; }
+        .project-card .project-overlay { position: static; opacity: 1; background: transparent; padding: 0; color: #0c0c0c; }
+        .project-card .project-title { transform: none; opacity: 1; font-family: 'Inter', 'Noto Sans SC', sans-serif; font-size: 1.5rem; line-height: 1.25; margin-bottom: .65rem; }
+        .project-card .project-subtitle { color: #666; font-size: .8rem; line-height: 1.6; max-width: 32rem; }
+        .modal-heading { max-width: 72rem; margin: 0 auto; padding: 3rem 1.5rem 2rem; border-bottom: 1px solid #d1d1d1; }
+        .modal-heading h2 { font-family: 'Inter', 'Noto Sans SC', sans-serif !important; font-size: clamp(1.3125rem, 3vw, 2.625rem); line-height: 1.1; margin-top: 1rem !important; }
+        .modal-heading .modal-subtitle { color: #0c0c0c; font-family: 'Inter', 'Noto Sans SC', sans-serif; font-size: clamp(1.25rem, 2.8vw, 2.5rem); font-weight: 500; line-height: 1.2; max-width: 64rem; margin-top: 1.25rem; white-space: nowrap; }
+        @media (max-width: 640px) { .modal-heading .modal-subtitle { white-space: normal; } }
+        #modal-desc { line-height: 1.5; }
+        .gallery-slot { background: #e6e6e2; border: 1px solid #cfcfca; overflow: hidden; }
+        .gallery-slot img, .gallery-slot video { width: 100%; height: auto; display: block; }
+        .gallery-slot iframe { width: 100%; min-height: 720px; border: 0; display: block; background: #fff; }
+        .gallery-caption { padding: 10px 12px; font-size: 11px; line-height: 1.4; color: #666; background: #f2f2ef; }
+        .modal-gallery-section .gallery-title { color: #0c0c0c; font-size: clamp(.9rem, 1.8vw, 1.5rem); letter-spacing: .02em; }
+        .modal-project-nav { position: fixed; left: 1.5rem; right: 1.5rem; bottom: 1.25rem; z-index: 55; pointer-events: none; }
+        .modal-project-nav button { pointer-events: auto; background: rgba(242,242,239,.94); padding: .6rem .8rem; border: 1px solid #cfcfca; backdrop-filter: blur(8px); }
+        @media (min-width: 768px) { .modal-project-nav { left: 3rem; right: 3rem; bottom: 1.5rem; } }
+        .modal-gallery { columns: 1; column-gap: 1.5rem; }
+        .modal-gallery > .gallery-slot { break-inside: avoid; margin: 0 0 1.5rem; }
+        @media (min-width: 768px) { .modal-gallery { columns: 2; } }
+        @media (min-width: 1024px) { .modal-gallery { columns: 3; } }
+
+        /* Hide scrollbar for cleaner look */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d1d1; }
+    </style>
+</head>
+<body class="font-sans">
+
+    <!-- Custom Cursors -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full px-6 py-6 md:px-12 flex justify-between items-center z-40 font-sans uppercase text-[10px] tracking-[0.2em] border-b border-ink/10 bg-paper/80 backdrop-blur-md">
+        <a href="#" class="hoverable">C. Liu / Works</a>
+        <div class="flex gap-6 md:gap-10"><a href="mailto:947756870@qq.com" class="hoverable hover:underline transition-all hidden sm:block">Contact</a><a href="cleo_liu_resume.html" target="_blank" class="hoverable hover:underline transition-all">View Resume ↗</a></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="grid grid-cols-1 md:grid-cols-12 gap-8 px-6 md:px-12 pt-32 pb-16 relative items-end">
+        <div class="md:col-span-8">
+            <p class="font-sans uppercase text-[10px] tracking-[0.2em] mb-7 text-muted">Cleo Liu · Portfolio</p>
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-[118px] leading-[0.88] tracking-tighter">
+                刘心怡<span class="text-muted">，</span><br><span>Cleo Liu.</span>
+            </h1>
+            <p class="font-serif text-lg md:text-2xl leading-relaxed max-w-4xl mt-10">4年出海品牌策划与产品营销经验，服务 AI 工具、创意软件及生活方式消费品牌。具备从用户访谈、竞品与行业分析，到产品定位、营销文案、上市传播及效果复盘的完整经验；能够将消费者洞察转化为产品概念、价值主张和传播内容，并协调产品、设计、研发、销售及外部合作方推进项目落地。</p>
+        </div>
+        <div class="md:col-span-4 md:pl-8 flex flex-col justify-between gap-14">
+            <div class="hero-mark"><img src="cleo-profile.jpg?v=2" alt="Cleo Liu"></div>
+            <div class="border-t border-ink pt-5 text-xs leading-relaxed">
+                <div class="grid grid-cols-2 gap-y-3"><span class="text-muted uppercase tracking-widest">Based in</span><span>深圳</span><span class="text-muted uppercase tracking-widest">Focus</span><span>品牌定位 | 产品上市 | 内容营销</span><span class="text-muted uppercase tracking-widest">Available</span><span>Oct. 2026</span></div>
+                <div class="flex gap-6 mt-8"><a href="mailto:947756870@qq.com" class="hoverable border-b border-ink pb-1">Email ↗</a><a href="cleo_liu_resume.html" target="_blank" class="hoverable border-b border-ink pb-1">Resume ↗</a></div>
+            </div>
+        </div>
+        
+    </header>
+
+    <!-- Portfolio Section -->
+    <main class="px-6 md:px-12 pt-16 pb-16 border-t border-gray-300">
+        <div class="mb-14">
+            <p class="case-label">Selected Works</p>
+        </div>
+        <!-- Filters -->
+        <div class="hidden flex-wrap gap-8 font-serif text-2xl md:text-4xl mb-16">
+            <button class="filter-btn active hoverable" data-filter="all">All <sup>07</sup></button>
+            <button class="filter-btn hoverable text-muted hover:text-ink" data-filter="web-video">产品营销 <sup>05</sup></button>
+            <button class="filter-btn hoverable text-muted hover:text-ink" data-filter="article-email">内容运营 <sup>01</sup></button>
+            <button class="filter-btn hoverable text-muted hover:text-ink" data-filter="social">社群运营 <sup>01</sup></button>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="portfolio-grid">
+            <!-- Items will be injected via JS -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-6 md:px-12 py-12 border-t border-gray-300 flex justify-between items-center text-xs uppercase tracking-widest text-muted">
+        <p>© 2026 Cleo Liu</p>
+        <a href="mailto:947756870@qq.com" class="hoverable hover:text-ink">947756870@qq.com</a>
+    </footer>
+
+    <!-- Fullscreen Project Modal (Secondary Page Simulation) -->
+    <div id="project-modal" class="fixed inset-0 bg-paper z-50 overflow-y-auto w-full h-full">
+        <!-- Close Button -->
+        <button id="close-modal" aria-label="关闭案例" class="fixed top-6 right-6 md:top-8 md:right-12 z-50 w-12 h-12 rounded-full bg-ink text-paper flex items-center justify-center hoverable hover:scale-110 transition-transform">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+
+        <!-- Modal Content Container -->
+        <div class="w-full">
+            <div class="modal-heading">
+                <p id="modal-category" class="font-sans text-xs uppercase tracking-[0.2em] text-muted"></p>
+                <h2 id="modal-title" class="font-serif text-5xl md:text-7xl mt-5"></h2>
+                <p id="modal-subtitle" class="modal-subtitle"></p>
+            </div>
+
+            <!-- Details Section -->
+            <div class="px-6 md:px-12 py-10 max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                    
+                    <!-- Meta Info (Left Column) -->
+                    <div class="md:col-span-4">
+                        <div class="mb-5">
+                            <h4 class="text-xs uppercase tracking-widest text-muted mb-2">Role</h4>
+                            <p id="modal-role" class="font-sans text-sm text-gray-700"></p>
+                        </div>
+                        <div class="mb-5">
+                            <h4 class="text-xs uppercase tracking-widest text-muted mb-2">Company</h4>
+                            <p id="modal-company" class="font-sans text-sm text-gray-700"></p>
+                        </div>
+                        <div class="mb-5">
+                            <h4 class="text-xs uppercase tracking-widest text-muted mb-2">Impact</h4>
+                            <p id="modal-impact" class="font-sans text-sm text-gray-700"></p>
+                        </div>
+                        <div>
+                            <h4 class="text-xs uppercase tracking-widest text-muted mb-2">Links</h4>
+                            <div id="modal-links" class="hidden flex-col gap-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- Main Description (Right Column) -->
+                    <div class="md:col-span-8">
+                        <div id="modal-desc" class="font-sans text-gray-700 leading-relaxed space-y-6 text-sm md:text-base">
+                            <!-- Dynamic Content -->
+                        </div>
+
+                    </div>
+                </div>
+                <section class="modal-gallery-section mt-8 pt-6 border-t border-gray-300" aria-label="项目画廊">
+                    <div class="flex items-end justify-between mb-6">
+                        <p class="case-label gallery-title">Gallery</p>
+                    </div>
+                    <div id="modal-gallery" class="modal-gallery">
+                    </div>
+                </section>
+            </div>
+            <div class="modal-project-nav flex justify-between items-center text-xs uppercase tracking-widest"><button id="prev-project" class="hoverable">← Previous</button><button id="next-project" class="hoverable">Next →</button></div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Interactions and Data -->
+    <script>
+        // Project Data
+        const projects = [
+            {id:'chatdoc',icon:'file-search-2',category:'web-video',categoryLabel:'网站与视频',title:'ChatDOC 产品升级',image:'https://placehold.co/800x1000/d9d9d6/0c0c0c?text=ChatDOC',role:'产品定位 · 用户研究 · 官网升级',company:'北京庖丁科技有限公司',impact:'落地页转化率 +174% · 核心功能渗透率 +64% · 充值率 +31%',links:[{label:'查看 ChatDOC 官网',url:'https://chatdoc.com/'},{label:'查看庖丁解文官网',url:'https://paodingjiewen.com/'}],desc:'<p><strong>Challenge</strong><br>ChatDOC 的研发能力和产品功能具备竞争力，但产品价值没有被清晰传达。官网功能表达偏技术化，场景代入感不足，视觉风格与核心用户存在距离，页面也没有充分承担产品教育和营销转化的作用。用户研究不足和营销触点有限，进一步限制了团队对需求的理解。</p><p><strong>Approach</strong><br>梳理产品定位，转向“专业知识 AI 问答助手”，将“更准确、秒溯源，为专业决策提供 100% 事实锚点”提炼为核心价值主张，并推动 TapSource™ 划词溯源申请专利。通过后台数据、用户访谈和竞品分析识别高价值用户与高频场景，以高校教育场景建立传播入口。随后推动官网视觉、视频首屏、Demo 试用和转化路径升级，并搭建站内信、邮件、Discord 社群和用户反馈激励机制。</p><p><strong>Result</strong><br>官网与用户沟通体系完成升级，落地页转化率提升 <strong>174%</strong>，核心功能渗透率提升 <strong>64%</strong>，充值率提升 <strong>31%</strong>；站内信打开率达到 <strong>65%</strong>，Discord 社群人数达到 <strong>9,694</strong>。</p>',gallery:[{label:'官网升级前 / 后截图预留'}]},
+            {id:'calliper',icon:'ruler',category:'web-video',categoryLabel:'网站与视频',title:'Calliper 产品升级',image:'https://placehold.co/800x1000/0c0c0c/f2f2ef?text=Calliper',role:'竞品调研 · 产品定位 · 销售物料',company:'北京庖丁科技有限公司',impact:'完成专业文档比对与核验定位 · 一体机方案进入重点传播',links:[{label:'查看 Calliper 官网',url:'https://calliper.cn/'},{label:'查看小绿书介绍',url:'https://mp.weixin.qq.com/s/r50TdXkmI_NUeBXvUlXttA'}],desc:'<p><strong>Challenge</strong><br>Calliper 能够处理复杂文档比对，但高昂的软件费用、服务器采购要求和敏感文档外传风险增加了企业决策门槛。市场沟通停留在功能介绍，产品价值与客户采购逻辑之间缺少连接。</p><p><strong>Approach</strong><br>根据竞品调研和销售反馈，将 Calliper 定位为“专业场景下的高准确率文档比对与核验工具”，聚焦证券投行、合规审核、信息披露和监管报送。围绕复杂文档解析、差异定位、结果复核与追溯制作营销物料，并推动“一体机部署”成为重点方案，降低部署门槛、提升交付效率。</p><p><strong>Result</strong><br>Calliper 完成从产品能力梳理到官网、产品 PPT 和内容物料升级，销售可以围绕具体业务场景与客户沟通。新版物料带来的有效线索、演示预约和成交数据：<strong>【待补】</strong>。</p>',gallery:[{label:'新版官网截图预留'},{label:'小绿书截图预留'},{label:'新版产品 PPT 截图预留'}]},
+            {id:'glazer',icon:'pen-tool',category:'web-video',categoryLabel:'网站与视频',title:'Glazer 产品升级',image:'https://placehold.co/800x1000/d9d9d6/0c0c0c?text=Glazer',role:'产品叙事 · 官网升级 · 销售物料',company:'北京庖丁科技有限公司',impact:'建立“技术性写作”产品概念与销售表达体系',links:[{label:'查看 Glazer 官网',url:'https://glazer.paodingai.com/'},{label:'查看产品推文',url:'https://mp.weixin.qq.com/s/MZzGs9d-5OU7AvFwu2oaMg'}],desc:'<p><strong>Challenge</strong><br>通用 AI 难以满足技术性写作对准确性、规范性和可追溯性的要求。Glazer 的底稿解析、规则配置和内容溯源能力缺少统一概念，销售也缺少便于客户理解和转发的物料。</p><p><strong>Approach</strong><br>提出“技术性写作”概念，以“言之有据，写作‘大’有可为”为核心 slogan，围绕自研底稿解析、全流程可配置撰写引擎和字段级精准溯源三套机制重构产品价值。同步制作长图一图流、小绿书、案例 PPT 和官网内容，将技术能力转化为具体场景和客户价值。</p><p><strong>Result</strong><br>Glazer 建立“底稿解析—规则撰写—字段溯源”的完整叙事链路，完成从 AI 写作工具到技术性写作系统的产品表达升级。销售物料带来的商机、官网线索和演示预约数据：<strong>【待补】</strong>。</p>',gallery:[{label:'官网截图预留'},{label:'产品 PPT 截图预留'},{label:'微信推文截图预留'}]},
+            {id:'reddit',icon:'message-circle',category:'social',categoryLabel:'社媒帖文',title:'ChatDOC Reddit 运营',image:'https://placehold.co/800x1000/d9d9d6/0c0c0c?text=Reddit',role:'社媒运营 · 内容策略 · 社群研究',company:'北京庖丁科技有限公司',impact:'81 篇帖文 · 95.6% 留存率 · 2.1k 互动 · 3 篇高互动热帖',desc:'<p><strong>Challenge</strong><br>ChatDOC 需要在海外高校学生、研究者和 AI 技术用户中建立品牌认知，并持续获得真实产品反馈，但缺少稳定的用户讨论场景。传统广告难以解释长文档阅读、信息提取和结果核验的实际价值。</p><p><strong>Approach</strong><br>通过竞品内容渠道、社群规模、话题相关性和内容互动表现，比较不同海外社媒的用户构成与传播特征。研究发现 Reddit 聚集了 ChatDOC 的核心潜在用户，相关讨论集中在专业长文档、学习与工作效率、AI、RAG 和大语言模型，因此将 Reddit 确定为重点内容渠道。围绕相关社群建立长期运营机制，以开放讨论、工作流程分享、产品测评和工具对比获取声量、反馈与目标用户兴趣。</p><p><strong>Result</strong><br>截至 2025 年 7 月 25 日，发布 <strong>81 篇帖文</strong>和 <strong>32 条评论</strong>，留存率达到 <strong>95.6%</strong>，累计互动 <strong>2.1k</strong>，产生 <strong>3 篇高互动热帖</strong>。部分内容进入 Reddit 搜索结果，并成为 Reddit Answers 生成相关回答时的引用来源。</p>',gallery:[{label:'季度运营数据截图预留'},{label:'Reddit 搜索结果截图预留'}]},
+            {id:'ocrflux',icon:'scan-text',category:'web-video',categoryLabel:'产品营销',title:'开源项目 OCRFlux 发布',image:'https://placehold.co/800x1000/d9d9d6/0c0c0c?text=OCRFlux',role:'传播策略 · KOL 投放 · 开源项目营销',company:'北京庖丁科技有限公司',impact:'72h 曝光 288,000 · CPV $0.013 · CPE $0.72 · GitHub Stars 1,700 · Hugging Face 下载 1.9 万',links:[{label:'查看 GitHub 项目',url:'https://github.com/chatdoc-com/OCRFlux'},{label:'查看 Hugging Face 模型',url:'https://huggingface.co/ChatDOC/OCRFlux-3B'}],desc:'<p><strong>Challenge</strong><br>OCRFlux 面向海外开发者发布，需要在较短时间内触达垂直技术人群，并让项目热度沉淀为长期的自然增长。</p><p><strong>Approach</strong><br>围绕海外开发者重新提炼传播主题，选择 GitHub 与 Hugging Face 作为项目发布阵地，并筛选 Twitter 垂类 KOL 进行精准投放。制定 KOL brief、内容方向和发布节奏，首轮联系 10 位 KOL，协同完成集中发布。</p><p><strong>Result</strong><br>内容发布 72 小时累计获得 <strong>288,000 次曝光</strong>，CPV <strong>$0.013</strong>，CPE <strong>$0.72</strong>。发布当周获得 <strong>1,700 个 GitHub Stars</strong> 和 <strong>1.9 万次 Hugging Face 下载</strong>，均进入对应平台当周榜单 Top 6。项目上线后，Hugging Face 仍保持每月约 1,000 次下载，国内自媒体平台也持续出现 KOL 自发测评。</p>',gallery:[{label:'OCRFlux 发布物料与数据截图预留'}]},
+            {id:'xcs-launch',icon:'rocket',category:'web-video',categoryLabel:'网站与视频',title:'xTool Studio Desktop v2.0 上市',image:'https://placehold.co/800x1000/0c0c0c/f2f2ef?text=XTool+Studio+Desktop',role:'上市策略 · 内容统筹 · 跨渠道传播',company:'xTool（童心制物）',impact:'日均下载量 +380% · 月活跃设备数 +27.8% · 耗材网站流量 +133.3%',links:[{label:'查看 xTool Studio Desktop 官网',url:'https://www.xtool.com/pages/software'},{label:'查看产品视频',url:'https://www.youtube.com/watch?v=_6M3t1fN4gA'}],desc:'<p><strong>Challenge</strong><br>用户长期将 xTool Studio Desktop（前 xTool Creative Space software）视为功能基础的硬件配套软件。v2.0 增加了多项进阶能力，上市需要改变老用户认知，并为 xTool 硬件转化增加软件价值。由于产品处于 Beta 阶段，稳定性和开放范围也需要被纳入传播设计。</p><p><strong>Approach</strong><br>将 xTool Studio Desktop 2.0 定位为“强大且易上手”的激光创作软件，强调与 xTool 硬件的深度适配。将 Beta 包装为“抢先体验”，首轮开放 <strong>2,000 个名额</strong>，以稀缺性推动下载和讨论。上市分为预热、Beta 发布、内容积累和全量发布四个阶段，统筹内测反馈、功能剧透、视频教程、PGC 案例、UGC 活动、邮件、社媒和 KOL 内容。</p><p><strong>Result</strong><br>发布当天官方直播间非粉丝观众占比达到 <strong>55%</strong>，同时在线人数创近半年最高，软件下载量达到 <strong>2,000 次/小时</strong>。全量开放一个月后，日均下载量提升 <strong>380%</strong>，月活跃设备数增长 <strong>27.8%</strong>；软件推广还带动 xTool 耗材网站日均流量增长 <strong>133.3%</strong>，AtomM 当月案例图纸下载量提升 <strong>186%</strong>。</p>',gallery:[{label:'xTool Studio Desktop 2.0 上市营销物料截图预留'}]},
+            {id:'xtool-content',icon:'mail',category:'article-email',categoryLabel:'文章与邮件',title:'搭建 xTool Studio Desktop 软件内容体系',image:'https://placehold.co/800x1000/d9d9d6/0c0c0c?text=xTool+Academy',role:'内容策略 · 邮件运营 · 用户教育',company:'xTool（童心制物）',impact:'邮件打开率 +96.3% · 网站点击率 +90%',links:[{label:'查看 xTool Academy',url:'https://support.xtool.com/academy'},{label:'查看教程视频合集',url:'https://youtube.com/playlist?list=PLybe2Md_qVs88ZjonER5HUhOQE7ekLwvK&si=4k_H62g4mrPmOzkY'}],desc:'<p><strong>Challenge</strong><br>xTool Studio Desktop（前 xTool Creative Space software）需要持续教育用户、激发创作兴趣，并让优质内容在用户、产品和社区之间循环。原有营销邮件以硬件促销为主，软件技巧、创意案例和用户作品缺少稳定的内容栏目与分发机制。</p><p><strong>Approach</strong><br>增设 <strong>Wakeup Monday</strong>，每周发送软件使用技巧和教程；增设 <strong>Crafty Friday</strong>，整理精选创意案例、用户作品并结合 UGC 有奖创作活动。负责 xTool Studio Desktop 站内信运营，分发软件更新信息；从 0 到 1 搭建 xTool Academy，规划教程合集页面，持续更新内容，通过软件内链接、邮件和 YouTube 分发教程，并协同产品经理优化后台编辑功能，定期策划视频教程系列。</p><p><strong>Result</strong><br>持续运营半年后，两个邮件栏目的平均打开率从 <strong>27%</strong> 提升至 <strong>53%</strong>，增长 <strong>96.3%</strong>；网站链接点击率从 <strong>7%</strong> 提升至 <strong>13.3%</strong>，增长 <strong>90%</strong>。教程内容库也成为社群和售后客服团队可直接复用的答疑工具，减少重复解释，降低用户因使用障碍产生差评的风险，并提升内部协作效率。</p>',gallery:[{label:'Wakeup Monday / Crafty Friday 邮件截图预留'},{label:'xTool Academy 页面截图预留'}]}
+        ];
+        const projectSubtitles = {
+            chatdoc: '让 ChatDOC 从技术能力走向用户理解',
+            calliper: '为高门槛文档产品找到更清晰的商业表达',
+            glazer: '让技术性写作真正做到“言之有据”',
+            reddit: '在真实讨论中建立 ChatDOC 的产品认知',
+            ocrflux: '通过精准的 KOL 投放实现破圈传播与长线自然增长',
+            'xcs-launch': '让“强大”和“易用”成为同一产品印象',
+            'xtool-content': '用优质内容教育用户，建立长期内容循环'
+        };
+        const galleryAssets = {
+            'chatdoc': [
+                ['配图/chatdoc/旧版首页.png', '旧版首页.png'],
+                ['配图/chatdoc/新版首页.mp4', '新版首页.mp4'],
+                ['配图/chatdoc/独立设计的onboarding邮件.png', '独立设计的onboarding邮件.png'],
+                ['配图/chatdoc/自己独立用figma设计的营销邮件.png', '自己独立用figma设计的营销邮件.png'],
+                ['配图/chatdoc/自己用figma设计的投广图片.png', '自己用figma设计的投广图片.png'],
+                ['配图/chatdoc/使用AI辅助完成的社媒图.png', '使用AI辅助完成的社媒图.png']
+            ],
+            'calliper': [['配图/calliper/Calliper产品介绍20260707.pdf', 'Calliper产品介绍20260707.pdf']],
+            'glazer': [['配图/Glazer/官网策划.png', '官网策划.png']],
+            'reddit': [
+                ['配图/chatdoc reddit/Google搜索.png', 'Google搜索.png'],
+                ['配图/chatdoc reddit/Reddit内置AI工具Answers搜索结果.png', 'Reddit内置AI工具Answers搜索结果.png'],
+                ['配图/chatdoc reddit/Reddit内置AI工具Answers搜索结果2.png', 'Reddit内置AI工具Answers搜索结果2.png'],
+                ['配图/chatdoc reddit/平台搜索量chatdoc.png', '平台搜索量chatdoc.png'],
+                ['配图/chatdoc reddit/平台搜索量ocrflux.png', '平台搜索量ocrflux.png'],
+                ['配图/chatdoc reddit/热帖1.png', '热帖1.png'],
+                ['配图/chatdoc reddit/热帖2.png', '热帖2.png'],
+                ['配图/chatdoc reddit/热帖3.png', '热帖3.png']
+            ],
+            'ocrflux': [
+                ['配图/ocrflux/KOL热帖示例1.png', 'KOL热帖示例1.png'],
+                ['配图/ocrflux/KOL热贴示例2.png', 'KOL热贴示例2.png'],
+                ['配图/ocrflux/KOL热帖示例3.png', 'KOL热帖示例3.png']
+            ],
+            'xcs-launch': [
+                ['配图/xTool Creative Space v2.0 上市/v2.0官网设计稿.png', 'v2.0官网设计稿.png'],
+                ['配图/xTool Creative Space v2.0 上市/预热期物料-直播banner.png', '预热期物料-直播banner.png'],
+                ['配图/xTool Creative Space v2.0 上市/预热期物料-营销邮件.png', '预热期物料-营销邮件.png'],
+                ['配图/xTool Creative Space v2.0 上市/预热期物料-UGC活动.png', '预热期物料-UGC活动.png'],
+                ['配图/xTool Creative Space v2.0 上市/v2.0开放全量下载邮件.png', 'v2.0开放全量下载邮件.png'],
+                ['配图/xTool Creative Space v2.0 上市/v2.0上线的UGC活动.png', 'v2.0上线的UGC活动.png']
+            ],
+            'xtool-content': [
+                ['配图/搭建xTool 软件内容体系/passport onboarding邮件.png', 'passport onboarding邮件.png'],
+                ['配图/搭建xTool 软件内容体系/年度数据邮件.jpg', '年度数据邮件.jpg'],
+                ['配图/搭建xTool 软件内容体系/自己用figma做的crafty Friday每周邮件.png', '自己用figma做的crafty Friday每周邮件.png'],
+                ['配图/搭建xTool 软件内容体系/自己用figma做的crafty Friday每周邮件2.png', '自己用figma做的crafty Friday每周邮件2.png'],
+                ['配图/搭建xTool 软件内容体系/软件新用户邮件 优化前后对比.png', '软件新用户邮件 优化前后对比.png']
+            ]
+        };
+
+        const renderGallery = (projectId) => {
+            const container = document.getElementById('modal-gallery');
+            container.innerHTML = '';
+            (galleryAssets[projectId] || []).forEach(([src, caption]) => {
+                const figure = document.createElement('figure');
+                figure.className = 'gallery-slot';
+                const label = document.createElement('figcaption');
+                label.className = 'gallery-caption';
+                label.textContent = caption;
+                figure.appendChild(label);
+                const extension = src.split('.').pop().toLowerCase();
+                if (extension === 'mp4' || extension === 'mov') {
+                    const video = document.createElement('video');
+                    video.src = src;
+                    video.controls = true;
+                    video.preload = 'metadata';
+                    figure.appendChild(video);
+                } else if (extension === 'pdf') {
+                    const frame = document.createElement('iframe');
+                    frame.src = src;
+                    frame.title = caption;
+                    figure.appendChild(frame);
+                } else {
+                    const image = document.createElement('img');
+                    image.src = src;
+                    image.alt = caption;
+                    image.loading = 'lazy';
+                    figure.appendChild(image);
+                }
+                container.appendChild(figure);
+            });
+        };
+
+        // Keep category labels consistent across filters, cards, and project details.
+        projects.forEach(project => {
+            project.categoryLabel = project.category === 'web-video' ? '产品营销' :
+                project.category === 'social' ? '社群运营' : '内容运营';
+        });
+        const projectOrder = ['xcs-launch', 'xtool-content', 'chatdoc', 'calliper', 'glazer', 'reddit', 'ocrflux'];
+        projects.sort((a, b) => projectOrder.indexOf(a.id) - projectOrder.indexOf(b.id));
+
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            
+            // Add a slight delay to the outline for a fluid effect
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards", easing: "ease-out" });
+        });
+
+        // Add hover effect to interactive elements
+        const addHoverEffect = () => {
+            document.querySelectorAll('.hoverable').forEach(el => {
+                el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+            });
+        };
+
+        // Render Projects
+        const grid = document.getElementById('portfolio-grid');
+        
+        const renderProjects = (filter = 'all') => {
+            grid.innerHTML = '';
+            projects.forEach((proj, index) => {
+                if (filter === 'all' || proj.category === filter) {
+                    const card = document.createElement('div');
+                    card.className = `project-card cursor-pointer hoverable reveal-anim`;
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    card.onclick = () => openModal(proj);
+                    
+                    card.innerHTML = `
+                        <div class="project-overlay">
+                            <span class="font-sans text-[10px] uppercase tracking-widest mb-2 block"><span class="project-index">${String(index + 1).padStart(2,'0')} / </span>${proj.categoryLabel} · Open case ↗</span>
+                            <h3 class="project-title">${proj.title}</h3>
+                            <p class="project-subtitle">${projectSubtitles[proj.id] || ''}</p>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                }
+            });
+            lucide.createIcons();
+            addHoverEffect(); // Re-bind hover events to new cards
+        };
+
+        // Filter Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Update active state
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'text-ink');
+                    b.classList.add('text-muted');
+                });
+                e.target.classList.add('active', 'text-ink');
+                e.target.classList.remove('text-muted');
+                
+                // Filter grid
+                renderProjects(e.target.dataset.filter);
+            });
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('project-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        const openModal = (proj) => {
+            // Populate data
+            document.getElementById('modal-category').innerText = proj.categoryLabel;
+            document.getElementById('modal-title').innerText = proj.title;
+            document.getElementById('modal-subtitle').innerText = projectSubtitles[proj.id] || '';
+            document.getElementById('modal-role').innerText = proj.role;
+            document.getElementById('modal-company').innerText = proj.company;
+            document.getElementById('modal-impact').innerText = proj.impact;
+            document.getElementById('modal-desc').innerHTML = proj.desc;
+            renderGallery(proj.id);
+
+            const linksContainer = document.getElementById('modal-links');
+            linksContainer.innerHTML = '';
+            if (proj.links && proj.links.length) {
+                proj.links.forEach(link => {
+                    const anchor = document.createElement('a');
+                    anchor.href = link.url;
+                    anchor.target = '_blank';
+                    anchor.rel = 'noopener noreferrer';
+                    anchor.className = 'hoverable border-b border-ink pb-2 text-xs uppercase tracking-widest hover:underline';
+                    anchor.innerHTML = `${link.label} <span>↗</span>`;
+                    linksContainer.appendChild(anchor);
+                });
+                linksContainer.classList.remove('hidden');
+                linksContainer.classList.add('flex');
+            } else {
+                linksContainer.classList.add('hidden');
+                linksContainer.classList.remove('flex');
+            }
+            
+            // Show modal
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden'; // prevent background scrolling
+            window.scrollTo(0, 0);
+        };
+
+        const moveProject = (direction) => {
+            const current = projects.findIndex(project => project.title === document.getElementById('modal-title').innerText);
+            const nextIndex = (current + direction + projects.length) % projects.length;
+            openModal(projects[nextIndex]);
+        };
+
+        document.getElementById('prev-project').addEventListener('click', () => moveProject(-1));
+        document.getElementById('next-project').addEventListener('click', () => moveProject(1));
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+
+        // Initial Render
+        renderProjects();
+        addHoverEffect();
+        lucide.createIcons();
+    </script>
+</body>
+</html>
