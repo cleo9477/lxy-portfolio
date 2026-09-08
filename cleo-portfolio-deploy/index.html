@@ -156,11 +156,25 @@
         .modal-heading .modal-subtitle { color: #0c0c0c; font-family: Georgia, 'Noto Serif SC', 'Songti SC', serif; font-size: clamp(1.05rem, 2.2vw, 2rem); font-weight: 500; line-height: 1.2; max-width: 64rem; margin-top: 1.25rem; white-space: nowrap; }
         @media (max-width: 640px) { .modal-heading .modal-subtitle { white-space: normal; } }
         html[lang="en"] .modal-heading .modal-subtitle { white-space: normal; max-width: 56rem; }
-        #modal-desc { line-height: 1.5; }
-        .gallery-slot { background: #e6e6e2; border: 1px solid #cfcfca; overflow: hidden; }
-        .gallery-slot img, .gallery-slot video { width: 100%; height: auto; display: block; }
-        .gallery-slot iframe { width: 100%; min-height: 720px; border: 0; display: block; background: #fff; }
-        .gallery-caption { padding: 10px 12px; font-size: 11px; line-height: 1.4; color: #666; background: #f2f2ef; }
+        .project-detail-shell { max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+        .project-detail-layout { display: block; }
+        .project-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid #d1d1d1; }
+        .project-meta > div { margin-bottom: 0 !important; }
+        .project-meta h4 { font-family: 'Inter', 'Noto Sans SC', sans-serif; }
+        .project-article { width: min(100%, 44rem); margin: 4rem auto 0; }
+        #modal-desc { line-height: 1.5; font-size: .95rem; }
+        #modal-desc > p { margin: 0; }
+        #modal-desc > p + p { margin-top: 4rem; }
+        #modal-desc > p > strong:first-child { display: block; margin-bottom: 1rem; color: #888; font-family: 'Inter', 'Noto Sans SC', sans-serif; font-size: .7rem; font-weight: 600; line-height: 1.2; letter-spacing: .16em; text-transform: uppercase; }
+        #modal-desc > p > strong:first-child + br { display: none; }
+        #modal-desc > p:last-child { width: min(56rem, calc(100vw - 3rem)); margin-left: 50%; padding: 2rem 0 2.25rem; border-top: 1px solid #0c0c0c; border-bottom: 1px solid #0c0c0c; color: #0c0c0c; font-family: Georgia, 'Noto Serif SC', 'Songti SC', serif; font-size: clamp(1.35rem, 2.3vw, 2.1rem); line-height: 1.5 !important; transform: translateX(-50%); }
+        .project-detail-shell .modal-gallery-section { margin-top: 5rem !important; padding-top: 1.5rem !important; }
+        .gallery-slot { background: transparent; border: 0; overflow: hidden; }
+        .gallery-slot img, .gallery-slot video { width: 100%; height: auto; display: block; border: 1px solid #cfcfca; }
+        .gallery-slot iframe { width: 100%; min-height: 720px; border: 1px solid #cfcfca; display: block; background: #fff; }
+        .gallery-caption { display: grid; grid-template-columns: 4.25rem minmax(0, 1fr); gap: .75rem; align-items: start; padding: .65rem 0 .75rem; border-top: 1px solid #0c0c0c; color: #4f4f4f; background: transparent; font-family: 'Inter', 'Noto Sans SC', sans-serif; font-size: 11px; line-height: 1.5 !important; }
+        .gallery-caption-index { color: #888; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+        .gallery-caption-text { overflow-wrap: anywhere; }
         .modal-gallery-section .gallery-title { color: #0c0c0c; font-size: clamp(.9rem, 1.8vw, 1.5rem); letter-spacing: .02em; }
         .modal-project-nav { position: fixed; left: .5rem; right: .5rem; top: 50%; transform: translateY(-50%); z-index: 55; pointer-events: none; }
         .modal-project-nav button { pointer-events: auto; width: 2.5rem; height: 2.5rem; display: grid; place-items: center; background: rgba(242,242,239,.94); border: 1px solid #cfcfca; backdrop-filter: blur(8px); font-size: 1rem; }
@@ -173,6 +187,8 @@
         .chatdoc-gallery .gallery-column { display: flex; flex-direction: column; gap: 1.5rem; }
         @media (min-width: 768px) {
             #hero-intro { font-size: 1.25rem; }
+            .project-detail-shell { padding-top: 2.5rem; }
+            .project-meta { grid-template-columns: 1fr 1fr 1.4fr 1fr; gap: 2rem; }
             .modal-gallery.chatdoc-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; align-items: start; }
         }
 
@@ -254,11 +270,11 @@
             </div>
 
             <!-- Details Section -->
-            <div class="px-6 md:px-12 py-10 max-w-6xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            <div class="project-detail-shell">
+                <div class="project-detail-layout">
                     
                     <!-- Meta Info (Left Column) -->
-                    <div class="md:col-span-4">
+                    <aside class="project-meta">
                         <div class="mb-5">
                             <h4 class="text-xs uppercase tracking-widest text-muted mb-2" data-i18n="role">Role</h4>
                             <p id="modal-role" class="font-sans text-sm text-gray-700"></p>
@@ -275,15 +291,15 @@
                             <h4 class="text-xs uppercase tracking-widest text-muted mb-2" data-i18n="links">Links</h4>
                             <div id="modal-links" class="hidden flex-col gap-3"></div>
                         </div>
-                    </div>
+                    </aside>
 
                     <!-- Main Description (Right Column) -->
-                    <div class="md:col-span-8">
+                    <article class="project-article">
                         <div id="modal-desc" class="font-sans text-gray-700 leading-relaxed space-y-6 text-sm md:text-base">
                             <!-- Dynamic Content -->
                         </div>
 
-                    </div>
+                    </article>
                 </div>
                 <section id="modal-gallery-section" class="modal-gallery-section mt-8 pt-6 border-t border-gray-300" aria-label="项目画廊">
                     <div class="flex items-end justify-between mb-6">
@@ -302,8 +318,8 @@
         // Project Data
         const projects = [
             {id:'chatdoc',icon:'file-search-2',category:'web-video',categoryLabel:'网站与视频',title:'ChatDOC 产品升级',image:'https://placehold.co/800x1000/d9d9d6/0c0c0c?text=ChatDOC',role:'产品定位 · 用户研究 · 官网升级',company:'北京庖丁科技有限公司',impact:'落地页转化率 +174% · 核心功能渗透率 +64% · 充值率 +31%',links:[{label:'查看 ChatDOC 官网',url:'https://chatdoc.com/'},{label:'查看庖丁解文官网',url:'https://paodingjiewen.com/'}],desc:'<p><strong>Challenge</strong><br>ChatDOC 的研发能力和产品功能具备竞争力，但产品价值没有被清晰传达。官网功能表达偏技术化，场景代入感不足，视觉风格与核心用户存在距离，页面也没有充分承担产品教育和营销转化的作用。用户研究不足和营销触点有限，进一步限制了团队对需求的理解。</p><p><strong>Approach</strong><br>梳理产品定位，转向“专业知识 AI 问答助手”，将“更准确、秒溯源，为专业决策提供 100% 事实锚点”提炼为核心价值主张，并推动 TapSource™ 划词溯源申请专利。通过后台数据、用户访谈和竞品分析识别高价值用户与高频场景，以高校教育场景建立传播入口。随后推动官网视觉、视频首屏、Demo 试用和转化路径升级，并搭建站内信、邮件、Discord 社群和用户反馈激励机制。</p><p><strong>Result</strong><br>官网与用户沟通体系完成升级，落地页转化率提升 <strong>174%</strong>，核心功能渗透率提升 <strong>64%</strong>，充值率提升 <strong>31%</strong>；站内信打开率达到 <strong>65%</strong>，Discord 社群人数达到 <strong>9,694</strong>。</p>',gallery:[{label:'官网升级前 / 后截图预留'}]},
-            {id:'calliper',icon:'ruler',category:'web-video',categoryLabel:'网站与视频',title:'Calliper 产品升级',image:'https://placehold.co/800x1000/0c0c0c/f2f2ef?text=Calliper',role:'竞品调研 · 产品定位 · 销售物料',company:'北京庖丁科技有限公司',impact:'完成专业文档比对与核验定位 · 一体机方案进入重点传播',links:[{label:'查看 Calliper 官网',url:'https://calliper.cn/'},{label:'查看小绿书介绍',url:'https://mp.weixin.qq.com/s/r50TdXkmI_NUeBXvUlXttA'}],desc:'<p><strong>Challenge</strong><br>Calliper 能够处理复杂文档比对，但高昂的软件费用、服务器采购要求和敏感文档外传风险增加了企业决策门槛。市场沟通停留在功能介绍，产品价值与客户采购逻辑之间缺少连接。</p><p><strong>Approach</strong><br>根据竞品调研和销售反馈，将 Calliper 定位为“专业场景下的高准确率文档比对与核验工具”，聚焦证券投行、合规审核、信息披露和监管报送。围绕复杂文档解析、差异定位、结果复核与追溯制作营销物料，并推动“一体机部署”成为重点方案，降低部署门槛、提升交付效率。</p><p><strong>Result</strong><br>Calliper 完成从产品能力梳理到官网、产品 PPT 和内容物料升级，销售可以围绕具体业务场景与客户沟通。新版物料带来的有效线索、演示预约和成交数据：<strong>【待补】</strong>。</p>',gallery:[{label:'新版官网截图预留'},{label:'小绿书截图预留'},{label:'新版产品 PPT 截图预留'}]},
-            {id:'glazer',icon:'pen-tool',category:'web-video',categoryLabel:'网站与视频',title:'Glazer 产品升级',image:'https://placehold.co/800x1000/d9d9d6/0c0c0c?text=Glazer',role:'产品叙事 · 官网升级 · 销售物料',company:'北京庖丁科技有限公司',impact:'建立“技术性写作”产品概念与销售表达体系',links:[{label:'查看 Glazer 官网',url:'https://glazer.paodingai.com/'},{label:'查看产品推文',url:'https://mp.weixin.qq.com/s/MZzGs9d-5OU7AvFwu2oaMg'}],desc:'<p><strong>Challenge</strong><br>通用 AI 难以满足技术性写作对准确性、规范性和可追溯性的要求。Glazer 的底稿解析、规则配置和内容溯源能力缺少统一概念，销售也缺少便于客户理解和转发的物料。</p><p><strong>Approach</strong><br>提出“技术性写作”概念，以“言之有据，写作‘大’有可为”为核心 slogan，围绕自研底稿解析、全流程可配置撰写引擎和字段级精准溯源三套机制重构产品价值。同步制作长图一图流、小绿书、案例 PPT 和官网内容，将技术能力转化为具体场景和客户价值。</p><p><strong>Result</strong><br>Glazer 建立“底稿解析—规则撰写—字段溯源”的完整叙事链路，完成从 AI 写作工具到技术性写作系统的产品表达升级。销售物料带来的商机、官网线索和演示预约数据：<strong>【待补】</strong>。</p>',gallery:[{label:'官网截图预留'},{label:'产品 PPT 截图预留'},{label:'微信推文截图预留'}]},
+            {id:'calliper',icon:'ruler',category:'web-video',categoryLabel:'网站与视频',title:'Calliper 产品升级',image:'https://placehold.co/800x1000/0c0c0c/f2f2ef?text=Calliper',role:'竞品调研 · 产品定位 · 销售物料',company:'北京庖丁科技有限公司',impact:'完成专业文档比对与核验定位 · 一体机方案进入重点传播',links:[{label:'查看 Calliper 官网',url:'https://calliper.cn/'},{label:'查看小绿书介绍',url:'https://mp.weixin.qq.com/s/r50TdXkmI_NUeBXvUlXttA'}],desc:'<p><strong>Challenge</strong><br>Calliper 能够处理复杂文档比对，但高昂的软件费用、服务器采购要求和敏感文档外传风险增加了企业决策门槛。市场沟通停留在功能介绍，产品价值与客户采购逻辑之间缺少连接。</p><p><strong>Approach</strong><br>根据竞品调研和销售反馈，将 Calliper 定位为“专业场景下的高准确率文档比对与核验工具”，聚焦证券投行、合规审核、信息披露和监管报送。围绕复杂文档解析、差异定位、结果复核与追溯制作营销物料，并推动“一体机部署”成为重点方案，降低部署门槛、提升交付效率。</p><p><strong>Result</strong><br>Calliper 完成从产品能力梳理到官网、产品 PPT 和内容物料升级，销售可以围绕具体业务场景与客户沟通。</p>',gallery:[{label:'新版官网截图预留'},{label:'小绿书截图预留'},{label:'新版产品 PPT 截图预留'}]},
+            {id:'glazer',icon:'pen-tool',category:'web-video',categoryLabel:'网站与视频',title:'Glazer 产品升级',image:'https://placehold.co/800x1000/d9d9d6/0c0c0c?text=Glazer',role:'产品叙事 · 官网升级 · 销售物料',company:'北京庖丁科技有限公司',impact:'建立“技术性写作”产品概念与销售表达体系',links:[{label:'查看 Glazer 官网',url:'https://glazer.paodingai.com/'},{label:'查看产品推文',url:'https://mp.weixin.qq.com/s/MZzGs9d-5OU7AvFwu2oaMg'}],desc:'<p><strong>Challenge</strong><br>通用 AI 难以满足技术性写作对准确性、规范性和可追溯性的要求。Glazer 的底稿解析、规则配置和内容溯源能力缺少统一概念，销售也缺少便于客户理解和转发的物料。</p><p><strong>Approach</strong><br>提出“技术性写作”概念，以“言之有据，写作‘大’有可为”为核心 slogan，围绕自研底稿解析、全流程可配置撰写引擎和字段级精准溯源三套机制重构产品价值。同步制作长图一图流、小绿书、案例 PPT 和官网内容，将技术能力转化为具体场景和客户价值。</p><p><strong>Result</strong><br>Glazer 建立“底稿解析—规则撰写—字段溯源”的完整叙事链路，完成从 AI 写作工具到技术性写作系统的产品表达升级。</p>',gallery:[{label:'官网截图预留'},{label:'产品 PPT 截图预留'},{label:'微信推文截图预留'}]},
             {id:'reddit',icon:'message-circle',category:'social',categoryLabel:'社媒帖文',title:'ChatDOC Reddit 运营',image:'https://placehold.co/800x1000/d9d9d6/0c0c0c?text=Reddit',role:'社媒运营 · 内容策略 · 社群研究',company:'北京庖丁科技有限公司',impact:'81 篇帖文 · 95.6% 留存率 · 2.1k 互动 · 3 篇高互动热帖',desc:'<p><strong>Challenge</strong><br>ChatDOC 需要在海外高校学生、研究者和 AI 技术用户中建立品牌认知，并持续获得真实产品反馈，但缺少稳定的用户讨论场景。传统广告难以解释长文档阅读、信息提取和结果核验的实际价值。</p><p><strong>Approach</strong><br>通过竞品内容渠道、社群规模、话题相关性和内容互动表现，比较不同海外社媒的用户构成与传播特征。研究发现 Reddit 聚集了 ChatDOC 的核心潜在用户，相关讨论集中在专业长文档、学习与工作效率、AI、RAG 和大语言模型，因此将 Reddit 确定为重点内容渠道。围绕相关社群建立长期运营机制，以开放讨论、工作流程分享、产品测评和工具对比获取声量、反馈与目标用户兴趣。</p><p><strong>Result</strong><br>截至 2025 年 7 月 25 日，发布 <strong>81 篇帖文</strong>和 <strong>32 条评论</strong>，留存率达到 <strong>95.6%</strong>，累计互动 <strong>2.1k</strong>，产生 <strong>3 篇高互动热帖</strong>。部分内容进入 Reddit 搜索结果，并成为 Reddit Answers 生成相关回答时的引用来源。</p>',gallery:[{label:'季度运营数据截图预留'},{label:'Reddit 搜索结果截图预留'}]},
             {id:'ocrflux',icon:'scan-text',category:'web-video',categoryLabel:'产品营销',title:'开源项目 OCRFlux 发布',image:'https://placehold.co/800x1000/d9d9d6/0c0c0c?text=OCRFlux',role:'传播策略 · KOL 投放 · 开源项目营销',company:'北京庖丁科技有限公司',impact:'72h 曝光 288,000 · CPV $0.013 · CPE $0.72 · GitHub Stars 1,700 · Hugging Face 下载 1.9 万',links:[{label:'查看 GitHub 项目',url:'https://github.com/chatdoc-com/OCRFlux'},{label:'查看 Hugging Face 模型',url:'https://huggingface.co/ChatDOC/OCRFlux-3B'}],desc:'<p><strong>Challenge</strong><br>OCRFlux 面向海外开发者发布，需要在较短时间内触达垂直技术人群，并让项目热度沉淀为长期的自然增长。</p><p><strong>Approach</strong><br>围绕海外开发者重新提炼传播主题，选择 GitHub 与 Hugging Face 作为项目发布阵地，并筛选 Twitter 垂类 KOL 进行精准投放。制定 KOL brief、内容方向和发布节奏，首轮联系 10 位 KOL，协同完成集中发布。</p><p><strong>Result</strong><br>内容发布 72 小时累计获得 <strong>288,000 次曝光</strong>，CPV <strong>$0.013</strong>，CPE <strong>$0.72</strong>。发布当周获得 <strong>1,700 个 GitHub Stars</strong> 和 <strong>1.9 万次 Hugging Face 下载</strong>，均进入对应平台当周榜单 Top 6。项目上线后，Hugging Face 仍保持每月约 1,000 次下载，国内自媒体平台也持续出现 KOL 自发测评。</p>',gallery:[{label:'OCRFlux 发布物料与数据截图预留'}]},
             {id:'xcs-launch',icon:'rocket',category:'web-video',categoryLabel:'网站与视频',title:'xTool Studio Desktop v2.0 上市',image:'https://placehold.co/800x1000/0c0c0c/f2f2ef?text=XTool+Studio+Desktop',role:'上市策略 · 内容统筹 · 跨渠道传播',company:'xTool（童心制物）',impact:'日均下载量 +380% · 月活跃设备数 +27.8% · 耗材网站流量 +133.3%',links:[{label:'查看 xTool Studio Desktop 官网',url:'https://www.xtool.com/pages/software'},{label:'查看产品视频',url:'https://www.youtube.com/watch?v=_6M3t1fN4gA'}],desc:'<p><strong>Challenge</strong><br>用户长期将 xTool Studio Desktop（前 xTool Creative Space software）视为功能基础的硬件配套软件。v2.0 增加了多项进阶能力，上市需要改变老用户认知，并为 xTool 硬件转化增加软件价值。由于产品处于 Beta 阶段，稳定性和开放范围也需要被纳入传播设计。</p><p><strong>Approach</strong><br>将 xTool Studio Desktop 2.0 定位为“强大且易上手”的激光创作软件，强调与 xTool 硬件的深度适配。将 Beta 包装为“抢先体验”，首轮开放 <strong>2,000 个名额</strong>，以稀缺性推动下载和讨论。上市分为预热、Beta 发布、内容积累和全量发布四个阶段，统筹内测反馈、功能剧透、视频教程、PGC 案例、UGC 活动、邮件、社媒和 KOL 内容。</p><p><strong>Result</strong><br>发布当天官方直播间非粉丝观众占比达到 <strong>55%</strong>，同时在线人数创近半年最高，软件下载量达到 <strong>2,000 次/小时</strong>。全量开放一个月后，日均下载量提升 <strong>380%</strong>，月活跃设备数增长 <strong>27.8%</strong>；软件推广还带动 xTool 耗材网站日均流量增长 <strong>133.3%</strong>，AtomM 当月案例图纸下载量提升 <strong>186%</strong>。</p>',gallery:[{label:'xTool Studio Desktop 2.0 上市营销物料截图预留'}]},
@@ -353,7 +369,7 @@
                 company: 'Beijing Paoding Technology Co., Ltd.',
                 impact: 'Defined the professional document comparison and verification position · Elevated appliance deployment as a key proposition',
                 linkLabels: ['Visit Calliper', 'View Product Guide'],
-                desc: '<p><strong>Challenge</strong><br>Calliper could compare complex documents, but its high software cost, server requirements, and concerns around transferring sensitive files created a significant purchase barrier. Market communication remained feature-led and did not connect product value to enterprise buying logic.</p><p><strong>Approach</strong><br>Based on competitive research and sales feedback, positioned Calliper as a “high-accuracy document comparison and verification tool for professional scenarios,” focusing on investment banking, compliance review, information disclosure, and regulatory reporting. Built marketing materials around complex-document parsing, difference detection, reviewability, and traceability, while elevating appliance deployment as a way to reduce implementation friction and improve delivery efficiency.</p><p><strong>Result</strong><br>Completed an integrated upgrade spanning product narrative, website, product deck, and sales content, enabling sales teams to communicate through concrete business scenarios and align more closely with enterprise purchasing priorities. Qualified-lead, demo-booking, and sales data: <strong>[To be added]</strong>.</p>'
+                desc: '<p><strong>Challenge</strong><br>Calliper could compare complex documents, but its high software cost, server requirements, and concerns around transferring sensitive files created a significant purchase barrier. Market communication remained feature-led and did not connect product value to enterprise buying logic.</p><p><strong>Approach</strong><br>Based on competitive research and sales feedback, positioned Calliper as a “high-accuracy document comparison and verification tool for professional scenarios,” focusing on investment banking, compliance review, information disclosure, and regulatory reporting. Built marketing materials around complex-document parsing, difference detection, reviewability, and traceability, while elevating appliance deployment as a way to reduce implementation friction and improve delivery efficiency.</p><p><strong>Result</strong><br>Completed an integrated upgrade spanning product narrative, website, product deck, and sales content, enabling sales teams to communicate through concrete business scenarios and align more closely with enterprise purchasing priorities.</p>'
             },
             glazer: {
                 title: 'Glazer Product Upgrade',
@@ -362,7 +378,7 @@
                 company: 'Beijing Paoding Technology Co., Ltd.',
                 impact: 'Established the “technical writing” concept and a unified sales narrative',
                 linkLabels: ['Visit Glazer', 'View Product Article'],
-                desc: '<p><strong>Challenge</strong><br>General-purpose AI struggles to meet technical writing requirements for accuracy, consistency, and traceability. Glazer’s capabilities in source-document parsing, rule configuration, and content tracing lacked a unified concept, while sales teams lacked materials that customers could quickly understand and share.</p><p><strong>Approach</strong><br>Introduced the category concept of “technical writing” and developed a central slogan around evidence-based creation. Reframed the product through three mechanisms: proprietary source-document parsing, a fully configurable writing engine, and field-level source tracing. Translated these capabilities into concrete scenarios and customer value across visual explainers, product guides, case-study decks, and website content.</p><p><strong>Result</strong><br>Established a complete narrative from source parsing to rule-based writing and field-level traceability, upgrading Glazer’s expression from an AI writing tool to a technical writing system. Sales opportunities, website leads, and demo-booking data: <strong>[To be added]</strong>.</p>'
+                desc: '<p><strong>Challenge</strong><br>General-purpose AI struggles to meet technical writing requirements for accuracy, consistency, and traceability. Glazer’s capabilities in source-document parsing, rule configuration, and content tracing lacked a unified concept, while sales teams lacked materials that customers could quickly understand and share.</p><p><strong>Approach</strong><br>Introduced the category concept of “technical writing” and developed a central slogan around evidence-based creation. Reframed the product through three mechanisms: proprietary source-document parsing, a fully configurable writing engine, and field-level source tracing. Translated these capabilities into concrete scenarios and customer value across visual explainers, product guides, case-study decks, and website content.</p><p><strong>Result</strong><br>Established a complete narrative from source parsing to rule-based writing and field-level traceability, upgrading Glazer’s expression from an AI writing tool to a technical writing system.</p>'
             },
             reddit: {
                 title: 'ChatDOC Reddit Operations',
@@ -485,7 +501,8 @@
             const container = document.getElementById('modal-gallery');
             const section = document.getElementById('modal-gallery-section');
             const assets = galleryAssets[projectId] || [];
-            const assetBase = window.location.protocol === 'file:' ? 'cleo-portfolio-deploy/' : '';
+            const isLocalPreview = window.location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(window.location.hostname);
+            const assetBase = isLocalPreview ? 'cleo-portfolio-deploy/' : '';
             container.innerHTML = '';
             container.classList.toggle('chatdoc-gallery', projectId === 'chatdoc');
             section.classList.toggle('hidden', assets.length === 0);
@@ -502,7 +519,13 @@
                 figure.className = 'gallery-slot';
                 const label = document.createElement('figcaption');
                 label.className = 'gallery-caption';
-                label.textContent = currentLanguage === 'en' ? (captionTranslations[caption] || caption) : caption;
+                const figureIndex = document.createElement('span');
+                figureIndex.className = 'gallery-caption-index';
+                figureIndex.textContent = `Fig. ${String(index + 1).padStart(2, '0')}`;
+                const figureText = document.createElement('span');
+                figureText.className = 'gallery-caption-text';
+                figureText.textContent = currentLanguage === 'en' ? (captionTranslations[caption] || caption) : caption;
+                label.append(figureIndex, figureText);
                 figure.appendChild(label);
                 const extension = src.split('.').pop().toLowerCase();
                 if (extension === 'mp4' || extension === 'mov') {
